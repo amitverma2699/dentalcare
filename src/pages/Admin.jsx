@@ -91,8 +91,8 @@ export default function Admin() {
   const handleImageFileChange = (e, callback) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 1.5 * 1024 * 1024) {
-        alert('File is too large! Please upload an image smaller than 1.5MB to save storage space.');
+      if (file.size > 300 * 1024) {
+        alert('Image is too large! To prevent browser storage limitations, please upload a smaller, optimized web image (less than 300KB).');
         return;
       }
       const reader = new FileReader();

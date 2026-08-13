@@ -222,21 +222,37 @@ export function AppProvider({ children }) {
     }
   });
 
-  // Sync state changes to localStorage
+  // Sync state changes to localStorage with try-catch protection
   useEffect(() => {
-    localStorage.setItem('ad_office_settings', JSON.stringify(officeSettings));
+    try {
+      localStorage.setItem('ad_office_settings', JSON.stringify(officeSettings));
+    } catch (e) {
+      console.error('LocalStorage write failed (settings):', e);
+    }
   }, [officeSettings]);
 
   useEffect(() => {
-    localStorage.setItem('ad_special_offers', JSON.stringify(specialOffers));
+    try {
+      localStorage.setItem('ad_special_offers', JSON.stringify(specialOffers));
+    } catch (e) {
+      console.error('LocalStorage write failed (offers):', e);
+    }
   }, [specialOffers]);
 
   useEffect(() => {
-    localStorage.setItem('ad_team_doctors', JSON.stringify(teamDoctors));
+    try {
+      localStorage.setItem('ad_team_doctors', JSON.stringify(teamDoctors));
+    } catch (e) {
+      console.error('LocalStorage write failed (doctors):', e);
+    }
   }, [teamDoctors]);
 
   useEffect(() => {
-    localStorage.setItem('ad_reviews_list', JSON.stringify(reviewsList));
+    try {
+      localStorage.setItem('ad_reviews_list', JSON.stringify(reviewsList));
+    } catch (e) {
+      console.error('LocalStorage write failed (reviews):', e);
+    }
   }, [reviewsList]);
 
   // Actions
