@@ -59,8 +59,12 @@ export default function Team() {
             {doctors.map((doc, idx) => (
               <div key={idx} className="card doctor-card">
                 <div className="doctor-card-body">
-                  <div className="doctor-avatar-mock">
-                    <span className="avatar-letter">{doc.name.substring(4, 5)}</span>
+                  <div className="doctor-avatar-mock" style={{ overflow: 'hidden', padding: 0 }}>
+                    {doc.image ? (
+                      <img src={doc.image} alt={doc.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <span className="avatar-letter">{doc.name ? doc.name.substring(4, 5) : 'D'}</span>
+                    )}
                   </div>
                   
                   <div className="doctor-info">

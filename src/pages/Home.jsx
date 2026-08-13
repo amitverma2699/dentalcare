@@ -19,9 +19,9 @@ export default function Home() {
         <div className="container hero-grid">
           <div className="hero-content">
             <span className="badge badge-accent">Comprehensive Family Dental Care</span>
-            <h1>Complete Dental Care for Your Whole Family — Under One Roof</h1>
+            <h1>{officeSettings.tagline || 'Complete Dental Care for Your Whole Family — Under One Roof'}</h1>
             <p className="hero-support">
-              Affordable Dental provides premium general, cosmetic, pediatric, and specialty treatments in Van Nuys, CA. Our team of experienced specialists ensures a gentle, anxiety-free experience using state-of-the-art dental technology.
+              {officeSettings.logoText || 'Affordable Dental'} provides premium general, cosmetic, pediatric, and specialty treatments in Van Nuys, CA. Our team of experienced specialists ensures a gentle, anxiety-free experience using state-of-the-art dental technology.
             </p>
             
             <div className="hero-actions">
@@ -45,8 +45,12 @@ export default function Home() {
           <div className="hero-visual">
             <div className="hero-visual-card">
               <div className="badge badge-accent visual-badge"><Sparkles size={14} /> Gentle Care First</div>
-              <div className="visual-graphic">
-                <Smile size={100} className="visual-icon-glow" />
+              <div className="visual-graphic" style={{ overflow: 'hidden', height: '100%', minHeight: '220px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {officeSettings.heroImage ? (
+                  <img src={officeSettings.heroImage} alt="Clinic Hero Visual" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)' }} />
+                ) : (
+                  <Smile size={100} className="visual-icon-glow" />
+                )}
               </div>
               <div className="visual-rating-card">
                 <div className="stars-row">

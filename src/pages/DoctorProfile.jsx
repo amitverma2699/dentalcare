@@ -5,7 +5,8 @@ import { useAppContext } from '../context/AppContext';
 
 export default function DoctorProfile() {
   const { doctorSlug } = useParams();
-  const { teamDoctors } = useAppContext();
+  const { teamDoctors, officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -29,8 +30,12 @@ export default function DoctorProfile() {
       {/* Hero */}
       <section className="doc-profile-hero bg-cream">
         <div className="container doc-profile-grid">
-          <div className="doc-hero-avatar-mock">
-            <span>{doc.name.substring(4, 5)}</span>
+          <div className="doc-hero-avatar-mock" style={{ overflow: 'hidden', padding: 0 }}>
+            {doc.image ? (
+              <img src={doc.image} alt={doc.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span>{doc.name ? doc.name.substring(4, 5) : 'D'}</span>
+            )}
           </div>
           
           <div className="doc-hero-content">
@@ -45,7 +50,7 @@ export default function DoctorProfile() {
               <Link to="/appointment" className="btn btn-primary">
                 Book Appointment with {doc.name.split(',')[0]}
               </Link>
-              <a href="tel:8185550199" className="btn btn-outline">
+              <a href={`tel:${phoneTel}`} className="btn btn-outline">
                 <Phone size={16} /> Call Office
               </a>
             </div>

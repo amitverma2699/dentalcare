@@ -40,9 +40,13 @@ export default function Navbar({ onMobileMenuToggle }) {
       <div className="container nav-container">
         {/* Brand Logo */}
         <Link to="/" className="logo-area">
-          <div className="logo-icon">AD</div>
+          {officeSettings.logoImage ? (
+            <img src={officeSettings.logoImage} alt={officeSettings.logoText} className="logo-img-uploaded" style={{ height: '40px', objectFit: 'contain', borderRadius: '4px' }} />
+          ) : (
+            <div className="logo-icon">{officeSettings.logoText ? officeSettings.logoText.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'AD'}</div>
+          )}
           <div className="logo-text">
-            <span className="brand-name">Affordable Dental</span>
+            <span className="brand-name">{officeSettings.logoText || 'Affordable Dental'}</span>
             <span className="brand-sub">Multi-Specialty Care</span>
           </div>
         </Link>

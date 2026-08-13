@@ -14,12 +14,21 @@ export default function Footer() {
         {/* Column 1: Info & Reviews */}
         <div className="footer-col footer-col-info">
           <Link to="/" className="footer-logo">
-            <div className="logo-icon-sm">AD</div>
-            <span className="logo-name">Affordable Dental</span>
+            {officeSettings.logoImage ? (
+              <img src={officeSettings.logoImage} alt={officeSettings.logoText} className="logo-img-uploaded-footer" style={{ height: '36px', objectFit: 'contain', borderRadius: '4px' }} />
+            ) : (
+              <div className="logo-icon-sm">{officeSettings.logoText ? officeSettings.logoText.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'AD'}</div>
+            )}
+            <span className="logo-name">{officeSettings.logoText || 'Affordable Dental'}</span>
           </Link>
           <p className="footer-tagline">
-            Providing trusted, multi-specialty dental care for families in Van Nuys, California under one roof. Comfort-focused, high-technology treatments.
+            {officeSettings.tagline || 'Providing trusted, multi-specialty dental care for families in Van Nuys, California under one roof. Comfort-focused, high-technology treatments.'}
           </p>
+          <div className="footer-social-links" style={{ display: 'flex', gap: '12px', margin: '12px 0 20px' }}>
+            {officeSettings.facebook && <a href={officeSettings.facebook} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.82rem', textDecoration: 'underline' }}>Facebook</a>}
+            {officeSettings.instagram && <a href={officeSettings.instagram} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.82rem', textDecoration: 'underline' }}>Instagram</a>}
+            {officeSettings.yelp && <a href={officeSettings.yelp} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.82rem', textDecoration: 'underline' }}>Yelp</a>}
+          </div>
           <div className="footer-ratings">
             <div className="stars">
               {[...Array(5)].map((_, i) => (
@@ -90,7 +99,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="footer-legal">
-          <p>&copy; {currentYear} Affordable Dental. All Rights Reserved.</p>
+          <p>&copy; {currentYear} {officeSettings.logoText || 'Affordable Dental'}. All Rights Reserved.</p>
           <div className="legal-links">
             <Link to="/patient-info">Privacy Policy</Link>
             <span className="separator">|</span>

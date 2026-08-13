@@ -9,7 +9,14 @@ const DEFAULT_OFFICE_SETTINGS = {
   email: 'info@bestfamilydental.com',
   hours: 'Mon - Sat: 8:00 AM - 6:00 PM',
   hoursFull: 'Monday - Saturday: 8:00 AM - 6:00 PM\nSunday: Closed',
-  parking: 'Free client parking is available in the dedicated lot directly behind the dental building.'
+  parking: 'Free client parking is available in the dedicated lot directly behind the dental building.',
+  logoText: 'Affordable Dental',
+  tagline: 'Complete Dental Care for Your Whole Family — Under One Roof',
+  facebook: 'https://facebook.com',
+  instagram: 'https://instagram.com',
+  yelp: 'https://yelp.com',
+  heroImage: '',
+  logoImage: ''
 };
 
 const DEFAULT_OFFERS = [
@@ -254,6 +261,14 @@ export function AppProvider({ children }) {
     setTeamDoctors(prev => prev.map(doc => doc.slug === slug ? { ...doc, ...updatedDoc } : doc));
   };
 
+  const addDoctor = (newDoc) => {
+    setTeamDoctors(prev => [...prev, newDoc]);
+  };
+
+  const deleteDoctor = (slug) => {
+    setTeamDoctors(prev => prev.filter(doc => doc.slug !== slug));
+  };
+
   const addReview = (review) => {
     const newRev = { ...review, id: String(Date.now()), date: 'Just now' };
     setReviewsList(prev => [newRev, ...prev]);
@@ -274,6 +289,8 @@ export function AppProvider({ children }) {
       editSpecialOffer,
       deleteSpecialOffer,
       updateDoctor,
+      addDoctor,
+      deleteDoctor,
       addReview,
       deleteReview
     }}>
