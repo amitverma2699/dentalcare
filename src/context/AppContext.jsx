@@ -177,23 +177,42 @@ export function AppProvider({ children }) {
   // ----------------------------------------------------
 
   const [officeSettings, setOfficeSettings] = useState(() => {
-    const data = localStorage.getItem('ad_office_settings');
-    return data ? JSON.parse(data) : DEFAULT_OFFICE_SETTINGS;
+    try {
+      const data = localStorage.getItem('ad_office_settings');
+      return data ? JSON.parse(data) : DEFAULT_OFFICE_SETTINGS;
+    } catch (e) {
+      return DEFAULT_OFFICE_SETTINGS;
+    }
   });
 
   const [specialOffers, setSpecialOffers] = useState(() => {
-    const data = localStorage.getItem('ad_special_offers');
-    return data ? JSON.parse(data) : DEFAULT_OFFERS;
+    try {
+      const data = localStorage.getItem('ad_special_offers');
+      const parsed = data ? JSON.parse(data) : DEFAULT_OFFERS;
+      return Array.isArray(parsed) ? parsed : DEFAULT_OFFERS;
+    } catch (e) {
+      return DEFAULT_OFFERS;
+    }
   });
 
   const [teamDoctors, setTeamDoctors] = useState(() => {
-    const data = localStorage.getItem('ad_team_doctors');
-    return data ? JSON.parse(data) : DEFAULT_DOCTORS;
+    try {
+      const data = localStorage.getItem('ad_team_doctors');
+      const parsed = data ? JSON.parse(data) : DEFAULT_DOCTORS;
+      return Array.isArray(parsed) ? parsed : DEFAULT_DOCTORS;
+    } catch (e) {
+      return DEFAULT_DOCTORS;
+    }
   });
 
   const [reviewsList, setReviewsList] = useState(() => {
-    const data = localStorage.getItem('ad_reviews_list');
-    return data ? JSON.parse(data) : DEFAULT_REVIEWS;
+    try {
+      const data = localStorage.getItem('ad_reviews_list');
+      const parsed = data ? JSON.parse(data) : DEFAULT_REVIEWS;
+      return Array.isArray(parsed) ? parsed : DEFAULT_REVIEWS;
+    } catch (e) {
+      return DEFAULT_REVIEWS;
+    }
   });
 
   // Sync state changes to localStorage

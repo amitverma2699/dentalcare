@@ -47,7 +47,7 @@ export default function Admin() {
   // Doctor Local Form State
   const [selectedDoctorSlug, setSelectedDoctorSlug] = useState('dr-john-doe');
   const [doctorForm, setDoctorForm] = useState(() => {
-    const doc = teamDoctors.find(d => d.slug === 'dr-john-doe');
+    const doc = (teamDoctors || []).find(d => d && d.slug === 'dr-john-doe');
     return doc ? { ...doc } : {};
   });
 
