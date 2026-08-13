@@ -1,40 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, Calendar, Printer, Smartphone, ShieldCheck, ArrowRight } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Offers() {
+  const { specialOffers: activeOffers } = useAppContext();
   const currentMonthYear = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-  const activeOffers = [
-    {
-      badge: 'New Patients',
-      title: 'Free Oral Exam & X-Rays',
-      desc: 'Available for eligible new private-pay patients (without insurance coverage). Includes a comprehensive clinical evaluation, diagnostic X-rays, and customized treatment planning advice.',
-      finePrint: 'Limit one per patient. Cannot be combined with insurance or other discount plans. Valid for private-pay patients only.',
-      code: 'NEW-EXAM-FREE'
-    },
-    {
-      badge: 'Dental Implants',
-      title: 'Dental Implant Consultation Promotion',
-      desc: 'Includes a comprehensive implant consultation, a diagnostic 3D CBCT bone structure scan, and a personalized implant treatment plan mapped out by our surgical lead Dr. Robert Lee.',
-      finePrint: 'Required for all implant candidates. Bone density must be evaluated prior to surgical confirmation. Includes CBCT scan ($350 value).',
-      code: 'IMPLANT-CONS'
-    },
-    {
-      badge: 'Gum Therapy',
-      title: 'Advanced Gum Therapy Discount',
-      desc: 'Get a $150 credit towards specialized scaling, root planing, or pocket therapy treatments if diagnosed with active periodontal gum disease during your comprehensive exam.',
-      finePrint: 'Applies only to clinical gum disease treatments (scaling/root planing). Diagnostic measurements must show qualifying pocket depths.',
-      code: 'GUM-CARE-150'
-    },
-    {
-      badge: 'Orthodontics',
-      title: 'Complimentary Professional Teeth Whitening',
-      desc: 'Receive a complimentary professional Opalescence® teeth whitening kit upon the successful completion of a comprehensive traditional braces or clear aligner (Invisalign®/SureSmile®) treatment plan.',
-      finePrint: 'Kit delivered post-treatment after appliances are removed. Patient must maintain regular cleanings during orthodontic care.',
-      code: 'ORTHO-WHITE'
-    }
-  ];
 
   return (
     <div className="offers-page fade-in">

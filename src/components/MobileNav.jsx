@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, ChevronDown, Phone, Calendar, ArrowRight, ShieldAlert } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function MobileNav({ isOpen, onClose }) {
+  const { officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
   const [expandedSection, setExpandedSection] = useState(null);
   const location = useLocation();
 
@@ -126,8 +129,8 @@ export default function MobileNav({ isOpen, onClose }) {
 
         <div className="drawer-footer">
           <div className="drawer-cta-buttons">
-            <a href="tel:8185550199" className="drawer-btn btn-call">
-              <Phone size={18} /> Call (818) 555-0199
+            <a href={`tel:${phoneTel}`} className="drawer-btn btn-call">
+              <Phone size={18} /> Call {officeSettings.phone}
             </a>
             <Link to="/appointment" className="drawer-btn btn-book-mob">
               <Calendar size={18} /> Book Appointment

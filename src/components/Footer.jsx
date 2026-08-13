@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, ShieldAlert, Star } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Footer() {
+  const { officeSettings } = useAppContext();
   const currentYear = new Date().getFullYear();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
 
   return (
     <footer className="global-footer">
@@ -62,19 +65,19 @@ export default function Footer() {
           <ul className="contact-details">
             <li>
               <MapPin size={18} className="footer-icon" />
-              <span>6251 Van Nuys Blvd.<br />Van Nuys, CA 91401</span>
+              <span>{officeSettings.address.split(',')[0]}<br />{officeSettings.address.split(',').slice(1).join(',')}</span>
             </li>
             <li>
               <Phone size={18} className="footer-icon" />
-              <a href="tel:8185550199">(818) 555-0199</a>
+              <a href={`tel:${phoneTel}`}>{officeSettings.phone}</a>
             </li>
             <li>
               <Mail size={18} className="footer-icon" />
-              <a href="mailto:info@bestfamilydental.com">info@bestfamilydental.com</a>
+              <a href={`mailto:${officeSettings.email}`}>{officeSettings.email}</a>
             </li>
             <li>
               <Clock size={18} className="footer-icon" />
-              <span>Mon - Sat: 8am - 6pm<br />Sunday: Closed</span>
+              <span style={{ whiteSpace: 'pre-line' }}>{officeSettings.hoursFull}</span>
             </li>
           </ul>
         </div>

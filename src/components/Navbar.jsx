@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Calendar, Phone, Menu, X, ShieldAlert } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Navbar({ onMobileMenuToggle }) {
+  const { officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -176,7 +179,7 @@ export default function Navbar({ onMobileMenuToggle }) {
 
         {/* Action CTAs */}
         <div className="nav-ctas">
-          <a href="tel:8185550199" className="nav-cta-btn btn-phone" aria-label="Call Office">
+          <a href={`tel:${phoneTel}`} className="nav-cta-btn btn-phone" aria-label="Call Office">
             <Phone size={16} />
             <span>Call Office</span>
           </a>

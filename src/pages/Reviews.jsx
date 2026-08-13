@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 import { Star, CheckCircle, ShieldAlert, Award, MessageSquare } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Reviews() {
-  const [reviewsList, setReviewsList] = useState([
-    { author: 'Maria R.', rating: 5, date: '2 weeks ago', text: 'I have always been terrified of root canals, but Dr. Doe and his assistant were incredibly gentle. I felt absolutely no pain. Highly recommend their comfort options!', treatment: 'Root Canal Therapy' },
-    { author: 'David T.', rating: 5, date: '1 month ago', text: 'We bring our three kids here for pediatric cleanings. The staff is patient, funny, and keeps the kids completely relaxed. It makes dental visits so much easier.', treatment: 'Pediatric Dentistry' },
-    { author: 'Sarah M.', rating: 5, date: '1 month ago', text: 'Got dental implants done here, and the entire process was smooth. The 3D imaging let me see the exact plan before starting. Very professional team and clean office.', treatment: 'Dental Implants' },
-    { author: 'James L.', rating: 5, date: '2 months ago', text: 'The gentlest cleaning I have ever had. The hygienist explained every step, and the digital camera let me see exactly what teeth needed attention.', treatment: 'General Dentistry' },
-    { author: 'Rachel V.', rating: 5, date: '2 months ago', text: 'The Zoom whitening got my teeth 5 shades lighter for my wedding! And they were so careful to manage my usual tooth sensitivity.', treatment: 'Cosmetic Dentistry' },
-    { author: 'Linda M.', rating: 5, date: '3 months ago', text: 'Got a bridge to replace an old missing tooth. It looks so natural, and I can finally chew comfortably on both sides of my mouth again.', treatment: 'Restorative Care' },
-    { author: 'Arturo P.', rating: 5, date: '4 months ago', text: 'After my deep cleaning treatment, my gums stopped bleeding entirely, and my pocket measurements dropped from 6mm to healthy 3mm ranges.', treatment: 'Periodontics' },
-    { author: 'Brandon H.', rating: 5, date: '5 months ago', text: 'Got all 4 wisdom teeth pulled under sedation. I fell asleep and woke up with the procedure finished, feeling no pain at all. Outstanding surgical team.', treatment: 'Oral Surgery' }
-  ]);
+  const { reviewsList, addReview } = useAppContext();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [newReview, setNewReview] = useState({
@@ -44,17 +36,13 @@ export default function Reviews() {
       return;
     }
 
-    // Add mock review to local state
-    setReviewsList(prev => [
-      {
-        author: newReview.name,
-        rating: Number(newReview.rating),
-        date: 'Just now',
-        text: newReview.comment,
-        treatment: newReview.treatment
-      },
-      ...prev
-    ]);
+    // Add mock review to global context state
+    addReview({
+      author: newReview.name,
+      rating: Number(newReview.rating),
+      text: newReview.comment,
+      treatment: newReview.treatment
+    });
     setFormSubmitted(true);
   };
 

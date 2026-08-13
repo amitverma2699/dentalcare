@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import MobileNav from './components/MobileNav';
 import Footer from './components/Footer';
 import StickyActionBar from './components/StickyActionBar';
+import { AppProvider } from './context/AppContext';
 
 // Pages
 import Home from './pages/Home';
@@ -22,6 +23,7 @@ import SmileGallery from './pages/SmileGallery';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Emergency from './pages/Emergency';
+import Admin from './pages/Admin';
 
 // Reusable ScrollToTop component
 function ScrollToTop() {
@@ -54,52 +56,55 @@ export default function App() {
   };
 
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="app-container">
-        {/* Global Utilities & Headers */}
-        <UtilityBar />
-        <Navbar onMobileMenuToggle={handleMobileMenuToggle} />
-        
-        {/* Mobile Navigation Drawer */}
-        <MobileNav isOpen={mobileMenuOpen} onClose={handleMobileMenuClose} />
-        
-        {/* Main Routes */}
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/services/:serviceId" element={<ServiceDetail />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/team/:doctorSlug" element={<DoctorProfile />} />
-            <Route path="/reviews" element={<Reviews />} />
-            <Route path="/patient-info" element={<PatientHub />} />
-            <Route path="/appointment" element={<Appointment />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/offers" element={<Offers />} />
-            <Route path="/financing" element={<Financing />} />
-            <Route path="/gallery" element={<SmileGallery />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:postSlug" element={<BlogPost />} />
-            <Route path="/emergency" element={<Emergency />} />
-          </Routes>
-        </main>
-        
-        {/* Global Footer & Mobile Actions */}
-        <Footer />
-        <StickyActionBar />
-      </div>
+    <AppProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="app-container">
+          {/* Global Utilities & Headers */}
+          <UtilityBar />
+          <Navbar onMobileMenuToggle={handleMobileMenuToggle} />
+          
+          {/* Mobile Navigation Drawer */}
+          <MobileNav isOpen={mobileMenuOpen} onClose={handleMobileMenuClose} />
+          
+          {/* Main Routes */}
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:serviceId" element={<ServiceDetail />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/team/:doctorSlug" element={<DoctorProfile />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/patient-info" element={<PatientHub />} />
+              <Route path="/appointment" element={<Appointment />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/offers" element={<Offers />} />
+              <Route path="/financing" element={<Financing />} />
+              <Route path="/gallery" element={<SmileGallery />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:postSlug" element={<BlogPost />} />
+              <Route path="/emergency" element={<Emergency />} />
+              <Route path="/admin" element={<Admin />} />
+            </Routes>
+          </main>
+          
+          {/* Global Footer & Mobile Actions */}
+          <Footer />
+          <StickyActionBar />
+        </div>
 
-      <style>{`
-        .app-container {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-        }
-        .main-content {
-          flex: 1;
-        }
-      `}</style>
-    </Router>
+        <style>{`
+          .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+          }
+          .main-content {
+            flex: 1;
+          }
+        `}</style>
+      </Router>
+    </AppProvider>
   );
 }

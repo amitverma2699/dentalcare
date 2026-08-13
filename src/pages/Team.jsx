@@ -1,46 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Calendar, Award, Star, Mail } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Team() {
-  const doctors = [
-    {
-      slug: 'dr-john-doe',
-      name: 'Dr. John Doe, DDS',
-      role: 'Lead Dentist & Clinic Director',
-      specialty: 'General & Cosmetic Dentistry',
-      credentials: 'UCLA School of Dentistry, Member of ADA & CDA',
-      focus: 'Porcelain veneers, cosmetic bonding, full-mouth restorations, and dental anxiety management.',
-      bio: 'Dr. Doe has spent over 12 years delivering comprehensive dental care to families in the San Fernando Valley. He established Affordable Dental with the vision of offering advanced, multi-specialty care in a single warm, comfort-first location.'
-    },
-    {
-      slug: 'dr-jane-smith',
-      name: 'Dr. Jane Smith, DDS',
-      role: 'Pediatric Dental Specialist',
-      specialty: 'Pediatric Dentistry',
-      credentials: 'USC School of Dentistry, Board Certified by the AAPD',
-      focus: 'Early growth screening, childhood decay prevention, special-needs dentistry, and child desensitization.',
-      bio: 'Dr. Smith completed an additional two years of specialized residency training in pediatric dentistry. She focuses on building positive associations with dental health, making visits fun, painless, and educational for young patients.'
-    },
-    {
-      slug: 'dr-robert-lee',
-      name: 'Dr. Robert Lee, DDS, MS',
-      role: 'Surgical Specialist',
-      specialty: 'Periodontics & Implantology',
-      credentials: 'Loma Linda University, Diplomate of the American Board of Periodontology',
-      focus: 'Computer-guided implant placement, 3D bone grafting, periodontal gum therapy, and surgical extractions.',
-      bio: 'Dr. Lee is a board-certified periodontist with a master’s degree in implantology. He specializes in restorative gum surgery and jaw bone reconstructions, translating complex anatomical scans into highly precise, comfortable implant plans.'
-    },
-    {
-      slug: 'dr-sarah-patel',
-      name: 'Dr. Sarah Patel, DDS, MS',
-      role: 'Orthodontic Specialist',
-      specialty: 'Orthodontics & Dentofacial Orthopedics',
-      credentials: 'Columbia University School of Dental Medicine, Member of AAO',
-      focus: 'Invisalign® clear aligner planning, digital bite simulations, and pediatric interceptive growth guidance.',
-      bio: 'Dr. Patel focuses on bite mechanics and alignment aesthetics for children and adults. She designs custom clear aligner plans that minimize treatment duration while ensuring optimal jaw joint comfort.'
-    }
-  ];
+  const { teamDoctors: doctors } = useAppContext();
 
   const staff = [
     {

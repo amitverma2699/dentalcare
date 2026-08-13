@@ -1,18 +1,22 @@
 import React from 'react';
 import { MapPin, Clock, Phone, AlertCircle } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function UtilityBar() {
+  const { officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
+
   return (
     <div className="utility-bar">
       <div className="container utility-content">
         <div className="utility-left">
-          <a href="https://maps.google.com/?q=6251+Van+Nuys+Blvd,+Van+Nuys,+CA+91401" target="_blank" rel="noopener noreferrer" className="utility-item">
+          <a href={`https://maps.google.com/?q=${encodeURIComponent(officeSettings.address)}`} target="_blank" rel="noopener noreferrer" className="utility-item">
             <MapPin size={14} className="icon-teal" />
-            <span>6251 Van Nuys Blvd, Van Nuys, CA</span>
+            <span>{officeSettings.address.split(',')[0] + ', ' + officeSettings.address.split(',')[1]}</span>
           </a>
           <div className="utility-item">
             <Clock size={14} className="icon-teal" />
-            <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
+            <span>{officeSettings.hours}</span>
           </div>
         </div>
         <div className="utility-right">
@@ -20,9 +24,9 @@ export default function UtilityBar() {
             <AlertCircle size={14} className="icon-red" />
             <span className="text-red">Same-Day Emergency Appointments</span>
           </div>
-          <a href="tel:8185550199" className="utility-item phone-link">
+          <a href={`tel:${phoneTel}`} className="utility-item phone-link">
             <Phone size={14} className="icon-teal" />
-            <span className="font-semibold">(818) 555-0199</span>
+            <span className="font-semibold">{officeSettings.phone}</span>
           </a>
         </div>
       </div>

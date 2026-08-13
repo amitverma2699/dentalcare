@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, ShieldAlert, Navigation } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function Contact() {
+  const { officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -70,12 +73,17 @@ export default function Contact() {
             <h3>Our Location</h3>
             <p style={{ margin: '8px 0 24px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Find driving directions and client parking details below.</p>
             
-            <div className="map-embed-mock flex-center">
-              <div style={{ textAlign: 'center' }}>
-                <MapPin size={36} color="var(--color-teal)" />
-                <p style={{ fontWeight: '600', marginTop: '8px' }}>Google Map Widget</p>
-                <p style={{ fontSize: '0.85rem' }}>6251 Van Nuys Blvd, Van Nuys, CA</p>
-              </div>
+            <div className="map-embed-mock">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3299.704253158022!2d-118.4485744847809!3d34.184379680570395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2977b311394bf%3A0xe5f9c49d885a0659!2s6251%20Van%20Nuys%20Blvd%2C%20Van%20Nuys%2C%20CA%2091401!5e0!3m2!1sen!2sus!4v1689255000000!5m2!1sen!2sus" 
+                width="100%" 
+                height="250" 
+                style={{ border: 0, borderRadius: 'var(--radius-md)', display: 'block' }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade" 
+                title="Affordable Dental Google Map"
+              ></iframe>
             </div>
 
             <div className="parking-directions" style={{ marginTop: '24px' }}>
@@ -88,7 +96,7 @@ export default function Contact() {
               </div>
             </div>
             
-            <a href="https://maps.google.com/?q=6251+Van+Nuys+Blvd,+Van+Nuys,+CA+91401" target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: '100%', marginTop: '20px' }}>
+            <a href={`https://maps.google.com/?q=${encodeURIComponent(officeSettings.address)}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline" style={{ width: '100%', marginTop: '20px' }}>
               Get Driving Directions
             </a>
           </div>
@@ -102,28 +110,28 @@ export default function Contact() {
                   <MapPin className="info-list-icon" />
                   <div>
                     <h4>Office Address</h4>
-                    <p>6251 Van Nuys Blvd.<br />Van Nuys, CA 91401</p>
+                    <p>{officeSettings.address.split(',')[0]}<br />{officeSettings.address.split(',').slice(1).join(',')}</p>
                   </div>
                 </li>
                 <li>
                   <Phone className="info-list-icon" />
                   <div>
                     <h4>Phone Number</h4>
-                    <p><a href="tel:8185550199">(818) 555-0199</a></p>
+                    <p><a href={`tel:${phoneTel}`}>{officeSettings.phone}</a></p>
                   </div>
                 </li>
                 <li>
                   <Mail className="info-list-icon" />
                   <div>
                     <h4>Email Address</h4>
-                    <p><a href="mailto:info@bestfamilydental.com">info@bestfamilydental.com</a></p>
+                    <p><a href={`mailto:${officeSettings.email}`}>{officeSettings.email}</a></p>
                   </div>
                 </li>
                 <li>
                   <Clock className="info-list-icon" />
                   <div>
                     <h4>Working Hours</h4>
-                    <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: Closed</p>
+                    <p style={{ whiteSpace: 'pre-line' }}>{officeSettings.hoursFull}</p>
                   </div>
                 </li>
               </ul>
@@ -145,7 +153,7 @@ export default function Contact() {
               <p style={{ margin: '12px 0 24px', fontSize: '0.92rem', lineHeight: '1.6' }}>
                 If you are experiencing severe toothache, swelling, bleeding, or a broken tooth, please do not use this general contact form. It may take up to 24 hours to reply.
               </p>
-              <a href="tel:8185550199" className="btn btn-emergency" style={{ width: '100%' }}>
+              <a href={`tel:${phoneTel}`} className="btn btn-emergency" style={{ width: '100%' }}>
                 <Phone size={16} /> Call Emergency Line
               </a>
             </div>

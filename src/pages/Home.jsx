@@ -5,9 +5,12 @@ import {
   Sparkles, Smile, Shield, Check, MapPin, Navigation, Clock 
 } from 'lucide-react';
 import BookingFlow from '../components/BookingFlow';
+import { useAppContext } from '../context/AppContext';
 
 export default function Home() {
+  const { officeSettings, specialOffers, reviewsList } = useAppContext();
   const currentMonthYear = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
 
   return (
     <div className="home-page fade-in">
@@ -25,8 +28,8 @@ export default function Home() {
               <Link to="/appointment" className="btn btn-primary">
                 <Calendar size={18} /> Book Appointment
               </Link>
-              <a href="tel:8185550199" className="btn btn-secondary">
-                <Phone size={18} /> Call (818) 555-0199
+              <a href={`tel:${phoneTel}`} className="btn btn-secondary">
+                <Phone size={18} /> Call {officeSettings.phone}
               </a>
             </div>
 
@@ -222,41 +225,18 @@ export default function Home() {
           </div>
 
           <div className="grid-3">
-            {/* Offer 1 */}
-            <div className="card offer-card">
-              <div className="offer-badge">New Patients</div>
-              <h3>Free Oral Exam & X-Rays</h3>
-              <p className="offer-desc">Available for eligible new private-pay patients without insurance. Includes comprehensive clinical evaluation.</p>
-              <div className="offer-divider"></div>
-              <div className="offer-footer">
-                <span className="expiry">Expires: {currentMonthYear}</span>
-                <Link to="/appointment" className="btn btn-outline btn-sm">Claim Offer</Link>
+            {specialOffers.slice(0, 3).map((offer, index) => (
+              <div key={offer.id || index} className="card offer-card">
+                <div className="offer-badge">{offer.badge}</div>
+                <h3>{offer.title}</h3>
+                <p className="offer-desc">{offer.desc}</p>
+                <div className="offer-divider"></div>
+                <div className="offer-footer">
+                  <span className="expiry">Expires: {currentMonthYear}</span>
+                  <Link to="/appointment" className="btn btn-outline btn-sm">Claim Offer</Link>
+                </div>
               </div>
-            </div>
-
-            {/* Offer 2 */}
-            <div className="card offer-card">
-              <div className="offer-badge">Implants</div>
-              <h3>Implant Consult Promotion</h3>
-              <p className="offer-desc">Includes 3D CBCT scan and personalized implant treatment plan with our lead implant specialist.</p>
-              <div className="offer-divider"></div>
-              <div className="offer-footer">
-                <span className="expiry">Expires: {currentMonthYear}</span>
-                <Link to="/appointment" className="btn btn-outline btn-sm">Claim Offer</Link>
-              </div>
-            </div>
-
-            {/* Offer 3 */}
-            <div className="card offer-card">
-              <div className="offer-badge">Cosmetics</div>
-              <h3>Braces Teeth Whitening</h3>
-              <p className="offer-desc">Complete your orthodontic treatment with a complimentary professional whitening kit (Opalescence®).</p>
-              <div className="offer-divider"></div>
-              <div className="offer-footer">
-                <span className="expiry">Expires: {currentMonthYear}</span>
-                <Link to="/appointment" className="btn btn-outline btn-sm">Claim Offer</Link>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="offers-action flex-center">
@@ -275,19 +255,15 @@ export default function Home() {
           </div>
 
           <div className="grid-3">
-            {[
-              { author: "Maria R.", rating: 5, text: "I have always been terrified of root canals, but Dr. Doe and his assistant were incredibly gentle. I felt absolutely no pain. Highly recommend their comfort options!", source: "Google Review" },
-              { author: "David T.", rating: 5, text: "We bring our three kids here for pediatric cleaning. The staff is patient, funny, and keeps the kids completely relaxed. It makes dental visits so much easier.", source: "Google Review" },
-              { author: "Sarah M.", rating: 5, text: "Got dental implants done here, and the entire process was smooth. The 3D imaging let me see the exact plan before starting. Very professional team and clean office.", source: "Yelp Review" }
-            ].map((review, idx) => (
-              <div key={idx} className="card review-card">
+            {reviewsList.slice(0, 3).map((review, idx) => (
+              <div key={review.id || idx} className="card review-card">
                 <div className="stars-row">
                   {[...Array(review.rating)].map((_, i) => <Star key={i} size={16} fill="var(--color-gold)" color="var(--color-gold)" />)}
                 </div>
                 <p className="review-txt">"{review.text}"</p>
                 <div className="review-author-info">
                   <span className="author-name">{review.author}</span>
-                  <span className="review-source">{review.source}</span>
+                  <span className="review-source">{review.treatment || 'Verified Patient'}</span>
                 </div>
               </div>
             ))}
@@ -309,8 +285,8 @@ export default function Home() {
               Tooth pain, a broken crown, swelling, or a knocked-out tooth shouldn't wait. We provide <strong>same-day emergency dental appointments</strong> in Van Nuys to diagnose your problem and get you out of pain immediately.
             </p>
             <div className="emergency-ctas">
-              <a href="tel:8185550199" className="btn btn-emergency">
-                <Phone size={18} /> Call Now: (818) 555-0199
+              <a href={`tel:${phoneTel}`} className="btn btn-emergency">
+                <Phone size={18} /> Call Now: {officeSettings.phone}
               </a>
               <Link to="/emergency" className="btn btn-outline btn-emergency-outline">
                 First-Aid Instructions
@@ -386,14 +362,14 @@ export default function Home() {
                 <MapPin className="loc-icon" />
                 <div>
                   <h4>Affordable Dental Office</h4>
-                  <p>6251 Van Nuys Blvd., Van Nuys, CA 91401</p>
+                  <p>{officeSettings.address}</p>
                 </div>
               </div>
               <div className="loc-detail">
                 <Clock className="loc-icon" />
                 <div>
                   <h4>Hours of Operation</h4>
-                  <p>Monday - Saturday: 8:00 AM - 6:00 PM<br />Sunday: Closed</p>
+                  <p style={{ whiteSpace: 'pre-line' }}>{officeSettings.hoursFull}</p>
                 </div>
               </div>
               <div className="loc-detail">
@@ -408,15 +384,18 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Embedded Google Map Mockup */}
+            {/* Embedded Google Map */}
             <div className="map-mockup">
-              <div className="map-placeholder flex-center">
-                <div style={{ textAlign: 'center' }}>
-                  <MapPin size={36} color="var(--color-teal)" />
-                  <p style={{ fontWeight: '600', marginTop: '8px' }}>Google Map Widget</p>
-                  <p style={{ fontSize: '0.85rem' }}>6251 Van Nuys Blvd, Van Nuys, CA</p>
-                </div>
-              </div>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3299.704253158022!2d-118.4485744847809!3d34.184379680570395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2977b311394bf%3A0xe5f9c49d885a0659!2s6251%20Van%20Nuys%20Blvd%2C%20Van%20Nuys%2C%20CA%2091401!5e0!3m2!1sen!2sus!4v1689255000000!5m2!1sen!2sus" 
+                width="100%" 
+                height="200" 
+                style={{ border: 0, borderRadius: 'var(--radius-md)', display: 'block' }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade" 
+                title="Affordable Dental Google Map"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -429,7 +408,7 @@ export default function Home() {
           <p>Book a general exam, children's cleaning, or specialized cosmetic consultation today.</p>
           <div className="cta-buttons flex-center">
             <Link to="/appointment" className="btn btn-primary">Book Appointment Now</Link>
-            <a href="tel:8185550199" className="btn btn-secondary">Call (818) 555-0199</a>
+            <a href={`tel:${phoneTel}`} className="btn btn-secondary">Call {officeSettings.phone}</a>
           </div>
         </div>
       </section>

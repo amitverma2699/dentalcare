@@ -1,113 +1,18 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShieldCheck, Award, Star, Mail, GraduationCap, ClipboardList, Smile, Phone } from 'lucide-react';
-
-const DOCTORS_DETAILS = {
-  'dr-john-doe': {
-    name: 'Dr. John Doe, DDS',
-    title: 'Lead Dentist & Clinic Director',
-    specialty: 'General & Cosmetic Dentistry',
-    education: [
-      'Doctor of Dental Surgery (DDS) - UCLA School of Dentistry (2012)',
-      'Bachelor of Science in Biology - UC Irvine (2008)',
-      'Advanced Aesthetic & Restorative Residency - Esthetic Dental Institute (2013)'
-    ],
-    memberships: [
-      'American Dental Association (ADA)',
-      'California Dental Association (CDA)',
-      'San Fernando Valley Dental Society (SFVDS)',
-      'American Academy of Cosmetic Dentistry (AACD)'
-    ],
-    philosophy: 'My clinical philosophy is built on education and active listening. I believe that a visit to the dentist should never be stressful or filled with clinical surprises. By explaining the "why" behind every recommendation and offering gentle comfort options, I help my patients feel completely in control of their dental health.',
-    anxietyMsg: 'To my nervous patients: I understand that dental anxiety is real and can prevent you from seeking care. In our office, we prioritize your comfort above all else. We will move at your exact pace, explain every instrument before we use it, and offer nitrous oxide (laughing gas) or oral conscious sedation so you can get the care you need completely stress-free.',
-    clinicalFocus: [
-      'Smile Makeovers & Porcelain Veneers',
-      'Composite Restorations (Tooth-Colored Fillings)',
-      'Full-Mouth Reconstructive Rehabilitation',
-      'Minimally Invasive Decay Prevention'
-    ]
-  },
-  'dr-jane-smith': {
-    name: 'Dr. Jane Smith, DDS',
-    title: 'Pediatric Dental Specialist',
-    specialty: 'Pediatric Dentistry',
-    education: [
-      'Doctor of Dental Surgery (DDS) - USC School of Dentistry (2015)',
-      'Pediatric Dentistry Specialty Certificate - Children\'s Hospital Oakland (2017)',
-      'Bachelor of Science in Psychology - UCLA (2011)'
-    ],
-    memberships: [
-      'American Academy of Pediatric Dentistry (AAPD)',
-      'American Dental Association (ADA)',
-      'California Dental Association (CDA)'
-    ],
-    philosophy: 'Children are not just miniature adults—they require specialized behavioral, developmental, and clinical approaches. I focus on creating a whimsical, non-threatening space where children feel safe and curious. By teaching children about dental hygiene using games and positive reinforcement, we lay the foundation for a lifetime of happy smiles.',
-    anxietyMsg: 'For parents of anxious children: We specialize in pediatric desensitization. We use simple, non-threatening language, let children touch clean instruments, and offer rewarding patient prizes. We also accommodate parents sitting directly beside the treatment chair to provide constant reassurance.',
-    clinicalFocus: [
-      'Early Childhood Desensitization & Exams',
-      'Pediatric Growth & Developmental Screening',
-      'Fluoride Varnishes & Custom Dental Sealants',
-      'Special-Needs Pediatric Dentistry'
-    ]
-  },
-  'dr-robert-lee': {
-    name: 'Dr. Robert Lee, DDS, MS',
-    title: 'Surgical Specialist',
-    specialty: 'Periodontics & Implantology',
-    education: [
-      'Doctor of Dental Surgery (DDS) - Loma Linda University (2009)',
-      'Master of Science (MS) in Periodontics & Implantology - Loma Linda Graduate School (2012)',
-      'Board Certified - American Board of Periodontology (2013)'
-    ],
-    memberships: [
-      'American Academy of Periodontology (AAP)',
-      'Academy of Osseointegration (AO)',
-      'American Dental Association (ADA)',
-      'California Dental Association (CDA)'
-    ],
-    philosophy: 'Surgical dentistry relies on extreme precision and biological understanding. I utilize 3D CBCT scans and digital planning software to map out implant surgeries virtually before touching a patient. This careful planning ensures smaller incisions, virtually no post-operative discomfort, and highly predictable long-term outcomes.',
-    anxietyMsg: 'To patients requiring surgery: It is completely normal to feel apprehensive about extractions, implants, or gum grafts. We offer advanced localized numbing blocks and conscious IV sedation options. Under sedation, you will fall into a deeply relaxed sleep and wake up with the procedure finished, remembering nothing.',
-    clinicalFocus: [
-      'Computer-Guided Dental Implant Placement',
-      'Advanced 3D Jaw Bone Grafting & Sinus Lifts',
-      'Non-Surgical & Surgical Periodontal Gum Therapy',
-      'Surgical Extractions & Wisdom Tooth Removals'
-    ]
-  },
-  'dr-sarah-patel': {
-    name: 'Dr. Sarah Patel, DDS, MS',
-    title: 'Orthodontic Specialist',
-    specialty: 'Orthodontics & Dentofacial Orthopedics',
-    education: [
-      'Doctor of Dental Surgery (DDS) - Columbia University School of Dental Medicine (2016)',
-      'Master of Science (MS) & Certificate in Orthodontics - Columbia University (2019)',
-      'Bachelor of Science in Biochemistry - UC San Diego (2012)'
-    ],
-    memberships: [
-      'American Association of Orthodontists (AAO)',
-      'Pacific Coast Society of Orthodontists (PCSO)',
-      'American Dental Association (ADA)',
-      'California Dental Association (CDA)'
-    ],
-    philosophy: 'Orthodontics is the perfect intersection of biomechanical engineering and artistry. A straight smile is not only beautiful—it aligns your jaw joints, stops enamel wear, and makes teeth much easier to clean. I design aligner and braces plans that accommodate your lifestyle, prioritizing long-term joint comfort and jaw health.',
-    anxietyMsg: 'To patients considering orthodontic work: Getting braces or aligners is a journey. We utilize comfortable 3D scanners rather than messy physical putties to map your teeth, and we walk you through a digital simulation of your smile progression so you know exactly what to expect at every step.',
-    clinicalFocus: [
-      'Invisalign® for Adults & Teenagers',
-      'SureSmile® Clear Aligner System Treatments',
-      'Traditional Ceramic & Low-Profile Braces',
-      'Pediatric Phase 1 Interceptive Growth Appliances'
-    ]
-  }
-};
+import { useAppContext } from '../context/AppContext';
 
 export default function DoctorProfile() {
   const { doctorSlug } = useParams();
+  const { teamDoctors } = useAppContext();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [doctorSlug]);
 
-  const doc = DOCTORS_DETAILS[doctorSlug];
+  const rawDoc = teamDoctors.find(d => d.slug === doctorSlug);
+  const doc = rawDoc ? { ...rawDoc, title: rawDoc.role } : null;
 
   if (!doc) {
     return (

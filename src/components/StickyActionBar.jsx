@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Calendar } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 
 export default function StickyActionBar() {
+  const { officeSettings } = useAppContext();
+  const phoneTel = officeSettings.phone.replace(/[^0-9]/g, '');
+
   return (
     <div className="sticky-action-bar">
-      <a href="tel:8185550199" className="action-btn call-action">
+      <a href={`tel:${phoneTel}`} className="action-btn call-action">
         <Phone size={18} />
         <span>Call Office</span>
       </a>
